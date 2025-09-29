@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC ".//mybaits.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.VacationTypesMapper">
+    <select id="findAll" resultType="com.neusoft.model.VacationTypes">
+        SELECT
+            id,
+            type_name AS typeName,
+            limited,
+            refresh_policy AS refreshPolicy
+        FROM vacation_types
+        ORDER BY id
+    </select>
+
+</mapper>

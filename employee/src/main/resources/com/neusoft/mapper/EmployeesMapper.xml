@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC ".//mybaits.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.EmployeesMapper">
+    <select id="findAll" resultType="com.neusoft.model.Employees">
+        SELECT
+            id,
+            name,
+            gender,
+            birthday,
+            phone,
+            hire_date,
+            dept_id,
+            job_id,
+            marital_status,
+            status,
+            created_at,
+            first_work_date
+        FROM employees
+    </select>
+
+    <select id="findAllEmployeeByDepartment" resultType="com.neusoft.model.Employees">
+        SELECT
+            e.id AS employeeId,
+            e.name AS employeeName,
+            e.email AS email,
+            e.dept_id AS deptId
+        FROM employees e
+        WHERE e.dept_id = #{departmentId}
+          AND e.status = '在职'
+    </select>
+
+    <select id="findAllEmployeeShift" resultType="com.neusoft.vo.EmployeeShiftVo">
+        SELECT
+            e.id AS empId,
+            e.name AS empname,
+            j.job_name AS job,
+            d.dept_name AS dept,
+            ws.shift_name AS work_shift
+        FROM employees e
+                 LEFT JOIN jobs j ON e.job_id = j.id
+                 LEFT JOIN departments d ON e.dept_id = d.id
+                 LEFT JOIN employee_shifts es ON e.id = es.employee_id
+                 LEFT JOIN work_shifts ws ON es.shift_id = ws.id
+        ORDER BY e.id
+    </select>
+    <select id="findAllAttendEmployeeInfo" resultType="com.neusoft.vo.AttendEmployeeInfo">
+        SELECT e.name AS employee_name,
+               e.gender,
+               d.dept_name AS department,
+               ar.check_in
+        FROM attendance_records ar
+                 JOIN employees e ON ar.employee_id = e.id
+                 LEFT JOIN departments d ON e.dept_id = d.id
+        WHERE ar.work_date = CURRENT_DATE
+          AND ar.check_in IS NOT NULL;
+    </select>
+</mapper>

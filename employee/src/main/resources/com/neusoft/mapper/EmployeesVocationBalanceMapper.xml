@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC ".//mybaits.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.EmployeeVocationBalanceMapper">
+    <update id="updateVacation">
+        MERGE INTO employee_vacation_balance AS evb
+            USING (SELECT #{employeeId} AS employee_id,
+                          #{vacationTypeId} AS vacation_type_id,
+                          #{year} AS year) AS vals
+            ON evb.employee_id = vals.employee_id
+                AND evb.vacation_type_id = vals.vacation_type_id
+                AND evb.year = vals.year
+            WHEN MATCHED THEN
+                UPDATE SET total_days = #{totalDays}, used_days = #{usedDays}
+            WHEN NOT MATCHED THEN
+                INSERT (employee_id, vacation_type_id, year, total_days, used_days)
+                    VALUES (#{employeeId}, #{vacationTypeId}, #{year}, #{totalDays}, #{usedDays});
+    </update>
+
+
+</mapper>

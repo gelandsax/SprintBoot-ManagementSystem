@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC ".//mybaits.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.AttendanceRecordsMapper">
+    <select id="getAttendanceCalendar" resultType="com.neusoft.vo.AttendanceRecord">
+        SELECT
+            wc.work_date AS date,
+            wc.day_type AS type,
+        CASE
+            WHEN wc.work_date > #{today} THEN NULL
+                WHEN ar.status IS NOT NULL THEN ar.status
+                ELSE '未打卡'
+        END AS status
+    FROM work_calendar wc
+    LEFT JOIN attendance_records ar
+        ON wc.work_date = ar.work_date
+        AND ar.employee_id = #{employeeId}
+        WHERE EXTRACT(YEAR FROM wc.work_date) = #{year}
+        AND EXTRACT(MONTH FROM wc.work_date) = #{month}
+        ORDER BY wc.work_date
+    </select>
+</mapper>

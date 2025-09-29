@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC ".//mybaits.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.mapper.WorkCalendarMapper">
+    <select id="findByCalendarDate" resultType="com.neusoft.model.WorkCalendar" parameterType="java.time.LocalDate">
+        SELECT id, calendar_date, day_type
+        FROM work_calendar
+        WHERE calendar_date = #{calendarDate}
+            LIMIT 1
+    </select>
+</mapper>

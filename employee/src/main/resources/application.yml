@@ -1,0 +1,35 @@
+spring:
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 2908514812@qq.com
+    password: xydl190704
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: Hn030807
+    url: jdbc:postgresql://localhost:5434/managementsystem
+    type: com.zaxxer.hikari.HikariDataSource
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    # 全局配置
+    db-config:
+      # 数据库配置
+      id-type: auto
+application:
+  security:
+    jwt:
+      expiration: 30000000
+      secret-key: XNGpES2W4Miuldtn8gFIkfyfgKXDv0m7OIPDNE9BdhpUWd0c755zkr0gR4NgJWuB
+  white-list:
+    pass_url:
+      - /api/users/login
+      - /api/forgotPassword
